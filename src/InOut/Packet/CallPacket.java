@@ -3,10 +3,10 @@ package Packet;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 
-public class CallPacket implements Packet, Serializable{
+public class CallPacket implements Packet, Serializable {
 
 	private static final long serialVersionUID = 3972539952673409279L;
-	
+
 	private int id;
 	private int type;
 	private long date;
@@ -16,30 +16,32 @@ public class CallPacket implements Packet, Serializable{
 	private String phoneNumber;
 	private int nameSize;
 	private String name;
-	
+
 	public CallPacket() {
 	}
-	
-	public CallPacket(int id, int type, long date, long duration, int contact_id, String number, String name) {
+
+	public CallPacket(int id, int type, long date, long duration,
+			int contact_id, String number, String name) {
 		this.id = id;
 		this.type = type;
 		this.date = date;
 		this.duration = duration;
 		this.contact_id = contact_id;
 		this.phoneNumber = number;
-		if(phoneNumber != null)
+		if (phoneNumber != null)
 			this.phoneNumberSize = number.length();
 		else
 			this.phoneNumberSize = 0;
 		this.name = name;
-		if(name != null)
+		if (name != null)
 			this.nameSize = name.length();
 		else
 			this.nameSize = 0;
 	}
-	
+
 	public byte[] build() {
-		ByteBuffer b = ByteBuffer.allocate(4*5+8*2+phoneNumberSize+nameSize);
+		ByteBuffer b = ByteBuffer.allocate(4 * 5 + 8 * 2 + phoneNumberSize
+				+ nameSize);
 		b.putInt(id);
 		b.putInt(type);
 		b.putLong(date);

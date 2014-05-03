@@ -2,44 +2,39 @@ package gui.panel;
 
 import gui.UserGUI;
 
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreePath;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Vector;
 
-import javax.swing.JLabel;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.border.EtchedBorder;
-
-import utils.MyFile;
-import javax.swing.JScrollPane;
-import javax.swing.border.TitledBorder;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.io.File;
-
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.swing.JTree;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
+
+import utils.MyFile;
 
 public class FileTreePanel extends JPanel {
 
 	private JTree tree;
 	private DefaultMutableTreeNode trunk;
 	private DefaultTreeModel treeModel;
-	
+
 	private JLabel lblValname;
 	private JLabel lblValsize;
 	private JLabel lblValhidden;
@@ -129,75 +124,115 @@ public class FileTreePanel extends JPanel {
 		JLabel lblLastModification = new JLabel("Last modification :");
 
 		lblVallastmodif = new JLabel("val_last_modif");
-		
+
 		txtDir = new JTextField();
 		txtDir.setText("download/");
 		txtDir.setColumns(10);
-		
+
 		JLabel lblDownloadDirectory = new JLabel("Download directory :");
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnDownload, GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-						.addComponent(btnTreeRequest, GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(lblName)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(lblValname))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(lblSize)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(lblValsize))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(lblHidden)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(lblValhidden))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(lblAccess)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(lblValaccess))
-						.addComponent(lblLastModification)
-						.addComponent(lblVallastmodif)
-						.addComponent(txtDir, GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
-						.addComponent(lblDownloadDirectory))
-					.addContainerGap())
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblName)
-						.addComponent(lblValname))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblSize)
-						.addComponent(lblValsize))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblHidden)
-						.addComponent(lblValhidden))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblAccess)
-						.addComponent(lblValaccess))
-					.addGap(32)
-					.addComponent(lblLastModification)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblVallastmodif)
-					.addPreferredGap(ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
-					.addComponent(lblDownloadDirectory)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(txtDir, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnDownload)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnTreeRequest)
-					.addContainerGap())
-		);
+		gl_panel.setHorizontalGroup(gl_panel
+				.createParallelGroup(Alignment.TRAILING)
+				.addGroup(
+						gl_panel.createSequentialGroup()
+								.addContainerGap()
+								.addGroup(
+										gl_panel.createParallelGroup(
+												Alignment.LEADING)
+												.addComponent(
+														btnDownload,
+														GroupLayout.DEFAULT_SIZE,
+														158, Short.MAX_VALUE)
+												.addComponent(
+														btnTreeRequest,
+														GroupLayout.DEFAULT_SIZE,
+														158, Short.MAX_VALUE)
+												.addGroup(
+														gl_panel.createSequentialGroup()
+																.addComponent(
+																		lblName)
+																.addPreferredGap(
+																		ComponentPlacement.UNRELATED)
+																.addComponent(
+																		lblValname))
+												.addGroup(
+														gl_panel.createSequentialGroup()
+																.addComponent(
+																		lblSize)
+																.addPreferredGap(
+																		ComponentPlacement.UNRELATED)
+																.addComponent(
+																		lblValsize))
+												.addGroup(
+														gl_panel.createSequentialGroup()
+																.addComponent(
+																		lblHidden)
+																.addPreferredGap(
+																		ComponentPlacement.UNRELATED)
+																.addComponent(
+																		lblValhidden))
+												.addGroup(
+														gl_panel.createSequentialGroup()
+																.addComponent(
+																		lblAccess)
+																.addPreferredGap(
+																		ComponentPlacement.UNRELATED)
+																.addComponent(
+																		lblValaccess))
+												.addComponent(
+														lblLastModification)
+												.addComponent(lblVallastmodif)
+												.addComponent(
+														txtDir,
+														GroupLayout.DEFAULT_SIZE,
+														191, Short.MAX_VALUE)
+												.addComponent(
+														lblDownloadDirectory))
+								.addContainerGap()));
+		gl_panel.setVerticalGroup(gl_panel
+				.createParallelGroup(Alignment.TRAILING)
+				.addGroup(
+						gl_panel.createSequentialGroup()
+								.addContainerGap()
+								.addGroup(
+										gl_panel.createParallelGroup(
+												Alignment.BASELINE)
+												.addComponent(lblName)
+												.addComponent(lblValname))
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addGroup(
+										gl_panel.createParallelGroup(
+												Alignment.BASELINE)
+												.addComponent(lblSize)
+												.addComponent(lblValsize))
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addGroup(
+										gl_panel.createParallelGroup(
+												Alignment.BASELINE)
+												.addComponent(lblHidden)
+												.addComponent(lblValhidden))
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addGroup(
+										gl_panel.createParallelGroup(
+												Alignment.BASELINE)
+												.addComponent(lblAccess)
+												.addComponent(lblValaccess))
+								.addGap(32)
+								.addComponent(lblLastModification)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(lblVallastmodif)
+								.addPreferredGap(ComponentPlacement.RELATED,
+										77, Short.MAX_VALUE)
+								.addComponent(lblDownloadDirectory)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(txtDir,
+										GroupLayout.PREFERRED_SIZE,
+										GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(btnDownload)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(btnTreeRequest).addContainerGap()));
 		panel.setLayout(gl_panel);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -240,72 +275,84 @@ public class FileTreePanel extends JPanel {
 
 		File dir = null;
 		/*
-		for (MyFile file : fileList) {
-			if(file.getPath().equals("src")) dir = file.getFile();
-		}
-		*/
-		//dir = fileList.get(0).getFile();
-		
+		 * for (MyFile file : fileList) { if(file.getPath().equals("src")) dir =
+		 * file.getFile(); }
+		 */
+		// dir = fileList.get(0).getFile();
+
 		treeModel = new DefaultTreeModel(this.addNodes(null, fileList.get(0)));
 		tree.setModel(treeModel);
 		repaint();
 	}
-	
+
 	private DefaultMutableTreeNode addNodes(TreePath parentPath, MyFile cur) {
-		
-		DefaultMutableTreeNode curNode = new DefaultMutableTreeNode(cur.getName());
+
+		DefaultMutableTreeNode curNode = new DefaultMutableTreeNode(
+				cur.getName());
 		TreePath path = new TreePath(curNode.getPath());
-		
-		if(parentPath != null) {
+
+		if (parentPath != null) {
 			parentPath = parentPath.pathByAddingChild(cur.getName());
 			fileMap.put(parentPath.toString(), cur);
 		} else {
 			fileMap.put(path.toString(), cur);
 			parentPath = new TreePath(curNode.getPath());
 		}
-		
-		if(cur.getList() != null) {
-			for(MyFile child : cur.getList()) {
+
+		if (cur.getList() != null) {
+			for (MyFile child : cur.getList()) {
 				curNode.add(addNodes(parentPath, child));
 			}
 		}
-		
+
 		return curNode;
 	}
-
 
 	private void fireClickNode(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			TreePath path = tree.getPathForLocation(e.getX(), e.getY());
 			if (path != null) {
 				/*
-				Object[] sPath = path.getPath();
-				String completePath = "";
-				for(int i = 0; i < sPath.length; i++) completePath += sPath[i]+"";
-				*/
-				
+				 * Object[] sPath = path.getPath(); String completePath = "";
+				 * for(int i = 0; i < sPath.length; i++) completePath +=
+				 * sPath[i]+"";
+				 */
+
 				MyFile f = fileMap.get(path.toString());
-				if(f != null) {
+				if (f != null) {
 					selectedAbsolutePath = f.getPath();
 					selectedName = f.getName();
 					lblValname.setText(f.getName());
-					lblValhidden.setText(""+f.isHidden());
-					lblVallastmodif.setText(""+(new Date(f.getLastModif())));
-					
+					lblValhidden.setText("" + f.isHidden());
+					lblVallastmodif.setText("" + (new Date(f.getLastModif())));
+
 					String sLength = "";
 					String temp = String.valueOf(f.getLength());
-					if(f.getLength() > 1024) sLength = String.valueOf(f.getLength()).substring(0, temp.length() - 3) + "Kb";
-					else if(f.getLength() > 1024000) sLength = String.valueOf(f.getLength()).substring(0, temp.length() - 6) + "Mb";
-					else if(f.getLength() > 1024000000) sLength = String.valueOf(f.getLength()).substring(0, temp.length() - 9) + "Tb";
-					else sLength = temp + " bytes";
+					if (f.getLength() > 1024)
+						sLength = String.valueOf(f.getLength()).substring(0,
+								temp.length() - 3)
+								+ "Kb";
+					else if (f.getLength() > 1024000)
+						sLength = String.valueOf(f.getLength()).substring(0,
+								temp.length() - 6)
+								+ "Mb";
+					else if (f.getLength() > 1024000000)
+						sLength = String.valueOf(f.getLength()).substring(0,
+								temp.length() - 9)
+								+ "Tb";
+					else
+						sLength = temp + " bytes";
 					lblValsize.setText(sLength);
-					
+
 					String sAccess = "";
-					if(f.isR() && f.isW()) sAccess = "read & write";
-					else if(f.isR()) sAccess = "read";
-					else if(f.isW()) sAccess = "write";
+					if (f.isR() && f.isW())
+						sAccess = "read & write";
+					else if (f.isR())
+						sAccess = "read";
+					else if (f.isW())
+						sAccess = "write";
 					lblValaccess.setText(sAccess);
-					
+
 					btnDownload.setEnabled(true);
 				} else {
 					System.out.println("MyFile null => anormal");
@@ -329,9 +376,10 @@ public class FileTreePanel extends JPanel {
 			}
 		}
 	}
-	
+
 	private void fireButtonDownload() {
-		gui.fireFileDownload(selectedAbsolutePath, txtDir.getText(), selectedName);
+		gui.fireFileDownload(selectedAbsolutePath, txtDir.getText(),
+				selectedName);
 	}
 
 	private void fireButtonRequestTree() {

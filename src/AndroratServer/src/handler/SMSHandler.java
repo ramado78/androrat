@@ -1,19 +1,16 @@
 package handler;
 
-import java.util.ArrayList;
-
+import gui.GUI;
 import server.Server;
 import Packet.Packet;
-import Packet.SMSPacket;
 import Packet.SMSTreePacket;
-import gui.GUI;
 
 public class SMSHandler implements PacketHandler {
 
 	private GUI gui;
 	private int channel;
 	private String imei;
-	
+
 	public SMSHandler(int chan, String imei, GUI gui) {
 		channel = chan;
 		this.imei = imei;
@@ -30,7 +27,7 @@ public class SMSHandler implements PacketHandler {
 		gui.logTxt("SMS tree data has been received");
 		c.getChannelHandlerMap().get(imei).removeListener(channel);
 		SMSTreePacket packet = (SMSTreePacket) p;
-		//ArrayList<SMSPacket> sms = new ArrayList<SMSPacket>();
+		// ArrayList<SMSPacket> sms = new ArrayList<SMSPacket>();
 		gui.updateSMS(imei, packet.getList());
 	}
 

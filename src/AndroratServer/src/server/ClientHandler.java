@@ -1,20 +1,18 @@
 package server;
 
+import gui.GUI;
+import in.Demux;
+import in.Receiver;
+import inout.Protocol;
+
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.net.SocketException;
 import java.nio.ByteBuffer;
-import java.nio.channels.SocketChannel;
 
-import gui.GUI;
-import inout.Protocol;
+import out.Mux;
 import Packet.CommandPacket;
 import Packet.Packet;
-
-import in.Demux;
-import in.Receiver;
-import out.Mux;
 
 public class ClientHandler extends Thread {
 	private String imei;
@@ -47,49 +45,50 @@ public class ClientHandler extends Thread {
 		while (connected) {
 
 			try {
-				
-			     //System.out.println("");
-				
-				//buffer = receiver.read();
-			     buffer = receiver.read(buffer);
-			     
+
+				// System.out.println("");
+
+				// buffer = receiver.read();
+				buffer = receiver.read(buffer);
+
 				try {
 					if (demux.receive(buffer)) {
-						//System.out.println("Restant: "+buffer.remaining()+" Position: "+buffer.position()+" Limit: "+buffer.limit());
+						// System.out.println("Restant: "+buffer.remaining()+" Position: "+buffer.position()+" Limit: "+buffer.limit());
 						buffer.compact();
 					}
 				} catch (Exception e) {
 					connected = false;
 					/*
-					connected = false;
-					try {
-						clientSocket.close();
-						mainGUI.deleteUser(imei);
-						
-					} catch (IOException e1) {
-					}*/
-					server.getGui().logErrTxt("ERROR: while deconding received stream (Demux) : "+e.getCause());
+					 * connected = false; try { clientSocket.close();
+					 * mainGUI.deleteUser(imei);
+					 * 
+					 * } catch (IOException e1) { }
+					 */
+					server.getGui().logErrTxt(
+							"ERROR: while deconding received stream (Demux) : "
+									+ e.getCause());
 				}
 
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				connected = false;
 				try {
-					
+
 					clientSocket.close();
 					mainGUI.deleteUser(imei);
 				} catch (IOException e1) {
-					server.getGui().logErrTxt("ERROR: while reading from a socket(Receiver)");
+					server.getGui().logErrTxt(
+							"ERROR: while reading from a socket(Receiver)");
 				}
-			}
-			catch(IndexOutOfBoundsException e) {
+			} catch (IndexOutOfBoundsException e) {
 				server.getGui().logErrTxt("Client ended gently !");
 				connected = false;
 				try {
 					clientSocket.close();
 					mainGUI.deleteUser(imei);
 				} catch (IOException e1) {
-					server.getGui().logErrTxt("Cannot close socket when socket client closed it before");
+					server.getGui()
+							.logErrTxt(
+									"Cannot close socket when socket client closed it before");
 				}
 			}
 		}
@@ -101,8 +100,8 @@ public class ClientHandler extends Thread {
 		Packet packet = new CommandPacket(command, channel, args);
 		mux.send(0, packet.build());
 
-		//server.getGui().logTxt("Request sent :" + command + ",on the channel "+ channel);
-
+		// server.getGui().logTxt("Request sent :" + command +
+		// ",on the channel "+ channel);
 
 	}
 

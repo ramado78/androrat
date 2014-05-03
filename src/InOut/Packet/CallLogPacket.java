@@ -7,18 +7,18 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-public class CallLogPacket implements Packet{
+public class CallLogPacket implements Packet {
 
 	private ArrayList<CallPacket> list;
 
 	public CallLogPacket() {
-		
+
 	}
-	
+
 	public CallLogPacket(ArrayList<CallPacket> ar) {
 		list = ar;
 	}
-	
+
 	public byte[] build() {
 		try {
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -39,7 +39,7 @@ public class CallLogPacket implements Packet{
 		} catch (Exception e) {
 		}
 	}
-	
+
 	public ArrayList<CallPacket> getList() {
 		return list;
 	}

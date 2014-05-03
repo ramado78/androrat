@@ -6,20 +6,21 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+
 import utils.MyFile;
 
-public class FileTreePacket implements Packet{
+public class FileTreePacket implements Packet {
 
 	private ArrayList<MyFile> list;
 
 	public FileTreePacket() {
-		
+
 	}
-	
+
 	public FileTreePacket(ArrayList<MyFile> ar) {
 		list = ar;
 	}
-	
+
 	public byte[] build() {
 		try {
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -40,7 +41,7 @@ public class FileTreePacket implements Packet{
 		} catch (Exception e) {
 		}
 	}
-	
+
 	public ArrayList<MyFile> getList() {
 		return list;
 	}

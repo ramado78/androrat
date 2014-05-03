@@ -22,20 +22,21 @@ public class Contact implements Serializable {
 	int type_addr;
 	ArrayList<String> messaging;
 	String OrganisationName;
-	String OrganisationStatus; //manager ..
+	String OrganisationStatus; // manager ..
 	byte[] photo;
-	
+
 	public Contact() {
-		
+
 	}
 
 	public String getRegion() {
 		return region;
 	}
-	
+
 	public void setRegion(String reg) {
 		region = reg;
 	}
+
 	public long getId() {
 		return id;
 	}

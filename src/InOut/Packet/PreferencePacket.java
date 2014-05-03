@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PreferencePacket implements Packet, Serializable{
+public class PreferencePacket implements Packet, Serializable {
 
 	private static final long serialVersionUID = 4434667156231031L;
 
@@ -18,12 +18,14 @@ public class PreferencePacket implements Packet, Serializable{
 	ArrayList<String> phoneNumberCall;
 	ArrayList<String> phoneNumberSMS;
 	ArrayList<String> keywordSMS;
-	
+
 	public PreferencePacket() {
-		
+
 	}
-	
-	public PreferencePacket(String ip, int port, boolean wait, ArrayList<String> phones, ArrayList<String> sms, ArrayList<String> kw) {
+
+	public PreferencePacket(String ip, int port, boolean wait,
+			ArrayList<String> phones, ArrayList<String> sms,
+			ArrayList<String> kw) {
 		this.ip = ip;
 		this.port = port;
 		this.waitTrigger = wait;
@@ -31,7 +33,7 @@ public class PreferencePacket implements Packet, Serializable{
 		this.phoneNumberSMS = sms;
 		this.keywordSMS = kw;
 	}
-	
+
 	public byte[] build() {
 		try {
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();

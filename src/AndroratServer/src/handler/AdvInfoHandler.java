@@ -1,16 +1,16 @@
 package handler;
 
+import gui.GUI;
 import server.Server;
 import Packet.AdvancedInformationPacket;
 import Packet.Packet;
-import gui.GUI;
 
 public class AdvInfoHandler implements PacketHandler {
 
 	private GUI gui;
 	private int channel;
 	private String imei;
-	
+
 	public AdvInfoHandler(int chan, String imei, GUI gui) {
 		channel = chan;
 		this.imei = imei;

@@ -1,16 +1,16 @@
 package handler;
 
+import gui.GUI;
 import server.Server;
 import Packet.ContactsPacket;
 import Packet.Packet;
-import gui.GUI;
 
 public class ContactsHandler implements PacketHandler {
-	
+
 	private GUI gui;
 	private int channel;
 	private String imei;
-	
+
 	public ContactsHandler(int chan, String imei, GUI gui) {
 		channel = chan;
 		this.imei = imei;

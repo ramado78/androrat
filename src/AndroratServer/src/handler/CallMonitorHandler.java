@@ -4,14 +4,13 @@ import gui.GUI;
 import server.Server;
 import Packet.CallStatusPacket;
 import Packet.Packet;
-import Packet.RawPacket;
 
 public class CallMonitorHandler implements PacketHandler {
-	
+
 	private GUI gui;
 	private int channel;
 	private String imei;
-	
+
 	public CallMonitorHandler(int channel, String imei, GUI gui) {
 		this.gui = gui;
 		this.channel = channel;
@@ -21,7 +20,7 @@ public class CallMonitorHandler implements PacketHandler {
 	@Override
 	public void receive(Packet p, String imei) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

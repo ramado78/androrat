@@ -6,11 +6,11 @@ import Packet.Packet;
 import Packet.RawPacket;
 
 public class SoundHandler implements PacketHandler {
-	
+
 	private GUI gui;
 	private int channel;
 	private String imei;
-	
+
 	public SoundHandler(int channel, String imei, GUI gui) {
 		this.gui = gui;
 		this.channel = channel;

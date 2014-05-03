@@ -1,17 +1,16 @@
 package handler;
 
+import gui.GUI;
 import server.Server;
 import Packet.CallLogPacket;
 import Packet.Packet;
-import Packet.RawPacket;
-import gui.GUI;
 
 public class CallLogHandler implements PacketHandler {
 
 	private GUI gui;
 	private int channel;
 	private String imei;
-	
+
 	public CallLogHandler(int chan, String imei, GUI gui) {
 		channel = chan;
 		this.imei = imei;

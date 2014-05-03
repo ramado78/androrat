@@ -34,12 +34,16 @@ public class CommandPacket implements Packet {
 
 	public byte[] build() {
 		byte[] byteCmd = ByteBuffer.allocate(2).putShort(commande).array();
-		byte[] byteTargChan = ByteBuffer.allocate(4).putInt(targetChannel).array();
-		byte[] cmdToSend = new byte[byteCmd.length + byteTargChan.length + argument.length];
+		byte[] byteTargChan = ByteBuffer.allocate(4).putInt(targetChannel)
+				.array();
+		byte[] cmdToSend = new byte[byteCmd.length + byteTargChan.length
+				+ argument.length];
 
 		System.arraycopy(byteCmd, 0, cmdToSend, 0, byteCmd.length);
-		System.arraycopy(byteTargChan, 0, cmdToSend, byteCmd.length, byteTargChan.length);
-		System.arraycopy(argument, 0, cmdToSend, byteCmd.length + byteTargChan.length, argument.length);
+		System.arraycopy(byteTargChan, 0, cmdToSend, byteCmd.length,
+				byteTargChan.length);
+		System.arraycopy(argument, 0, cmdToSend, byteCmd.length
+				+ byteTargChan.length, argument.length);
 
 		return cmdToSend;
 	}
@@ -51,7 +55,7 @@ public class CommandPacket implements Packet {
 	public byte[] getArguments() {
 		return argument;
 	}
-	
+
 	public int getTargetChannel() {
 		return targetChannel;
 	}

@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class AdvancedInformationPacket implements Packet, Serializable{
+public class AdvancedInformationPacket implements Packet, Serializable {
 
 	private static final long serialVersionUID = 44346671562310318L;
 	String phoneNumber;
@@ -21,23 +21,23 @@ public class AdvancedInformationPacket implements Packet, Serializable{
 	String simOperatorName;
 	String simCountryCode;
 	String simSerial;
-	
+
 	boolean wifiAvailable;
 	boolean wifiConnectedOrConnecting;
 	String wifiExtraInfos;
 	String wifiReason;
-	
+
 	String mobileNetworkName;
 	boolean mobileNetworkAvailable;
 	boolean mobileNetworkConnectedOrConnecting;
 	String mobileNetworkExtraInfos;
 	String mobileNetworkReason;
-	
+
 	String androidVersion;
 	int androidSdk;
-	
+
 	ArrayList<String> sensors;
-	
+
 	int batteryHealth;
 	int batteryLevel;
 	int batteryPlugged;
@@ -47,7 +47,7 @@ public class AdvancedInformationPacket implements Packet, Serializable{
 	String batteryTechnology;
 	int batteryTemperature;
 	int batteryVoltage;
-	
+
 	public byte[] build() {
 		try {
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -64,7 +64,8 @@ public class AdvancedInformationPacket implements Packet, Serializable{
 		ObjectInputStream in;
 		try {
 			in = new ObjectInputStream(bis);
-			AdvancedInformationPacket adv = (AdvancedInformationPacket) in.readObject();
+			AdvancedInformationPacket adv = (AdvancedInformationPacket) in
+					.readObject();
 			setPhoneNumber(adv.getPhoneNumber());
 			setIMEI(adv.getIMEI());
 			setSoftwareVersion(adv.getSoftwareVersion());
@@ -81,7 +82,8 @@ public class AdvancedInformationPacket implements Packet, Serializable{
 			setWifiReason(adv.getWifiReason());
 			setMobileNetworkName(adv.getMobileNetworkName());
 			setMobileNetworkAvailable(adv.isMobileNetworkAvailable());
-			setMobileNetworkConnectedOrConnecting(adv.isMobileNetworkConnectedOrConnecting());
+			setMobileNetworkConnectedOrConnecting(adv
+					.isMobileNetworkConnectedOrConnecting());
 			setMobileNetworkExtraInfos(adv.getMobileNetworkExtraInfos());
 			setMobileNetworkReason(adv.getMobileNetworkReason());
 			setAndroidVersion(adv.getAndroidVersion());
@@ -107,11 +109,11 @@ public class AdvancedInformationPacket implements Packet, Serializable{
 	public String getSimCountryCode() {
 		return simCountryCode;
 	}
-	
+
 	public void setSimCountryCode(String code) {
 		this.simCountryCode = code;
 	}
-	
+
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
