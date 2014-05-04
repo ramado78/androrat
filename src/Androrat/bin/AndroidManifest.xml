@@ -4,7 +4,7 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="8" />
+    <uses-sdk android:minSdkVersion="9" />
 
     <uses-permission android:name="android.permission.RECEIVE_SMS" /><!-- Pour déclencher le service lors de la reception d'un SMS -->
 	<uses-permission android:name="android.permission.READ_SMS" /><!-- Pour déclencher le service lorsque le SMS reçu contient un mot clé -->

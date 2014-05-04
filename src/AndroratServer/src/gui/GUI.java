@@ -90,7 +90,7 @@ public class GUI extends javax.swing.JFrame {
 		userTable.getColumnModel().getColumn(0)
 				.setCellRenderer(new MyRenderer());
 		logPanel.append(Color.blue, "*** ANDRORAT SERVEUR ***\n"
-				+ "Authors : A.Bertrand, A.Akimov, R.David, P.Junk\nLaunch at "
+				+ "Authors : A.Bertrand, A.Akimov, R.David, P.Junk, ramado(nfc support)\nLaunch at "
 				+ (new Date(System.currentTimeMillis())) + "\n" + "On port : "
 				+ port + "\n");
 

@@ -220,7 +220,7 @@ public class Server implements Controler {
 		if (command == Protocol.GET_GPS_STREAM) {
 			if (!channelHandlerMap.get(imei).registerListener(channel,
 					new GPSPacket()))
-				gui.logErrTxt("ERREUR: The virtual channel " + channel
+				gui.logErrTxt("ERROR: The virtual channel " + channel
 						+ " already registered!");
 			channelHandlerMap.get(imei).registerHandler(channel,
 					new GPSHandler(channel, imei, gui));
