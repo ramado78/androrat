@@ -53,7 +53,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        
+		<activity android:name="my.app.client.CameraActivity"
+          android:screenOrientation="landscape">
+		</activity>
        	
     </application>
 

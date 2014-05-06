@@ -14,7 +14,7 @@
         <EditText android:id="@+id/ipfield"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
-              android:text="192.168.2.3"
+              android:text="172.17.0.18"
         />
     </LinearLayout>
     <LinearLayout
@@ -45,5 +45,9 @@
         android:layout_height="wrap_content"
         android:text="Stop Service" />
 
+    <SurfaceView
+        android:id="@+id/surfaceView1"
+        android:layout_width="1dp"
+        android:layout_height="1dp" />
     
 </LinearLayout>
