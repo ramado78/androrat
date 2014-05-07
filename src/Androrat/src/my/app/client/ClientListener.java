@@ -234,7 +234,7 @@ public abstract class ClientListener extends Service implements OnRecordPosition
 	        	type = "other";
 	
 	        if(state){
-	        	Log.w(TAG, "Connection is Available "+type);
+	        	Log.w(TAG, "Connection is Available kk "+type);
 	        	if(!isConnected) { //Si la connection est maintenant ok et qu'on était déconnecté
 					Intent serviceIntent = new Intent(context, Client.class); // On lance le service
 					serviceIntent.setAction("ConnectivityCheckReceiver");

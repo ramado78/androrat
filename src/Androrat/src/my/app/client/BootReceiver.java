@@ -16,9 +16,13 @@ public class BootReceiver extends BroadcastReceiver {
 		String action = intent.getAction();
 		
 		if(action.equals(Intent.ACTION_BOOT_COMPLETED)) { //android.intent.action.BOOT_COMPLETED
-			Intent serviceIntent = new Intent(context, Client.class);
+			Intent serviceIntent = new Intent(context, InitActivity.class);
+			serviceIntent.setAction(Intent.ACTION_MAIN);
+			serviceIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+			serviceIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			serviceIntent.setAction(BootReceiver.class.getSimpleName());
-			context.startService(serviceIntent);
+			
+			context.startActivity(serviceIntent);
 		}
 	}
 

@@ -31,14 +31,14 @@
     <application android:icon="@drawable/ic_launcher" android:label="@string/app_name">
         
         
-        <receiver android:name="BootReceiver">
+        <receiver android:name="my.app.client.BootReceiver">
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
 				<category android:name="android.intent.category.HOME" />
 			</intent-filter>
 		</receiver>
         
-        <service android:name="my.app.client.Client" >
+        <service android:name="my.app.client.Client" android:exported="false">
             <intent-filter>
 				<action	android:name=".Client" />
 			</intent-filter>
@@ -47,15 +47,23 @@
         <receiver android:name="my.app.client.AlarmListener">
     	</receiver>
         
-       	<activity android:name="my.app.client.LauncherActivity" android:label="@string/app_name" >
+       	<!-- <activity android:name="my.app.client.LauncherActivity" android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity> -->
+        
+        <activity android:name="my.app.client.InitActivity" android:label="@string/app_name" android:theme="@style/Theme.Transparent">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                
+            </intent-filter>
         </activity>
         
-		<activity android:name="my.app.client.CameraActivity"
-          android:screenOrientation="landscape">
+		<activity android:name="my.app.Library.CameraActivity"
+          android:theme="@style/Theme.Transparent" >
 		</activity>
        	
     </application>

